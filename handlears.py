@@ -49,7 +49,7 @@ async def get_type_with_results(update: Update, context: CallbackContext):
         for user in data:
             await update.callback_query.message.reply_document(
                 document=user['file_id'],
-                caption=f"Foydalanuvchi: {user['username']}\nYuborilgan sana: {user['date_time']}"
+                caption=f"👤 Username: @{user['username']}\n📅 Datetime: {user['date_time']}"
             )
     else:
         await update.callback_query.message.reply_text("Ushbu davrda yuborilgan ma'lumotnoma topilmadi!")

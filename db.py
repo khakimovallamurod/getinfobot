@@ -61,7 +61,7 @@ def type_with_user_data(type):
         data = get_daily()
     elif type == 'weekly':
         data = get_weekly()
-    elif data == 'monthly':
+    elif type == 'monthly':
         data = get_monthly()
     else:
         data = get_all()
