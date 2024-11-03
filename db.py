@@ -30,27 +30,25 @@ def get_daily():
             data.append(user)
 
     return data
-
 def get_weekly():
     week_date = datetime.now().date() - timedelta(days=datetime.now().weekday())
     datas_all = user_data.all()
     data = []
     for user in datas_all:
         date_obk = datetime.fromisoformat(user['date_time'])
-        if week_date <= date_obk <= week_date + timedelta(days=7):
+        if week_date <= date_obk.date() <= week_date + timedelta(days=7):
             data.append(user)
     return data
-        
+  
 def get_monthly():
     monthly_date = datetime.now().date() - timedelta(days=datetime.now().day)
     datas_all = user_data.all()
     data = []
     for user in datas_all:
         date_obk = datetime.fromisoformat(user['date_time'])
-        if monthly_date <= date_obk <= monthly_date + timedelta(days=30):
+        if monthly_date <= date_obk.date() <= monthly_date + timedelta(days=30):
             data.append(user)
     return data
-
 def get_all():
     datas_all = user_data.all()
     data = []

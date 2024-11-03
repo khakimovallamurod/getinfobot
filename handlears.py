@@ -47,10 +47,9 @@ async def get_type_with_results(update: Update, context: CallbackContext):
     data = db.type_with_user_data(type=type_data)
     if data != []:
         for user in data:
-            await update.message.reply_document(
+            await update.callback_query.message.reply_document(
                 document=user['file_id'],
                 caption=f"Foydalanuvchi: {user['username']}\nYuborilgan sana: {user['date_time']}"
             )
     else:
-        await update.message.reply_text("Ushbu davrda yuborilgan ma'lumotnoma topilmadi!")
-        
+        await update.callback_query.message.reply_text("Ushbu davrda yuborilgan ma'lumotnoma topilmadi!")
