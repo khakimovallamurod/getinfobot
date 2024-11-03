@@ -12,3 +12,4 @@ def get_adminID():
     adim_id = os.getenv('admin_id')
     if adim_id is None:
         raise ValueError('Admin ID not')
+    return adim_id
