@@ -12,7 +12,7 @@ def main():
     
     dp.add_handler(CallbackQueryHandler(handlears.get_type_with_results, pattern='type:'))
 
-    dp.add_handler(MessageHandler(filters=filters.Document.DOC, callback=handlears.save_doc_data))
+    dp.add_handler(MessageHandler(filters=filters.Document.DOC | filters.Document.DOCX, callback=handlears.save_doc_data))
     dp.run_polling()
 
 if __name__ == '__main__':

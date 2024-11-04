@@ -32,7 +32,7 @@ async def save_doc_data(update: Update, context: CallbackContext):
     date_time = datetime.today().date()
     db.save_obektv(
         chat_id=user.id,
-        username=user.full_name,
+        username=user.username,
         file_id=file_id,
         date_time=date_time
         )
