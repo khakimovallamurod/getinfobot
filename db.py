@@ -9,7 +9,7 @@ user_data = user_datas.table('User_Datas')
 
 def is_admin(chat_id):
     admin_id = config.get_adminID()
-    if admin_id == str(chat_id):
+    if str(chat_id) in admin_id:
         return True
     return False
 

@@ -39,9 +39,13 @@ async def save_doc_data(update: Update, context: CallbackContext):
     await update.message.reply_text('✅ Sizning ma\'lumotingiz saqlandi!')
     
 async def data_type_get(update: Update, context: CallbackContext):
-    await update.message.reply_text(text="Ma'lumotnomalarni olishning turini tanlang: ",
-                                    reply_markup=keyboards.inline_keyboard)
-
+    user = update.message.from_user
+    if db.is_admin(user.id):
+        await update.message.reply_text(text="Ma'lumotnomalarni olishning turini tanlang: ",
+                                        reply_markup=keyboards.inline_keyboard)
+    else:
+         await update.message.reply_text(text="Siz admin emassiz. Bu admin uchun commanda!")
+         
 async def get_type_with_results(update: Update, context: CallbackContext):
     type_data = update.callback_query.data.split(':')[1]
     data = db.type_with_user_data(type=type_data)
