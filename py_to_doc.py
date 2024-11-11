@@ -1,35 +1,36 @@
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-import json
-import re
-
-# Hujjat yaratish
-doc = Document()
-
-# Sahifa cheklovlarini o'rnatish
-section = doc.sections[0]
-section.top_margin = Inches(0.59)   # Yuqoridan 1.5 sm (0.59 dyuym)
-section.bottom_margin = Inches(0.39)  # Pastdan 1 sm (0.39 dyuym)
-section.left_margin = Inches(0.79)    # Chapdan 2 sm (0.79 dyuym)
-section.right_margin = Inches(0.39)   # O'ngdan 1 sm (0.39 dyuym)
-
-# Matnni markazlashtirib kiritish
-paragraph = doc.add_paragraph()
-paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = paragraph.add_run("MA'LUMOTNOMA")
-run.bold = True
-run.font.size = Pt(14)
 
 
-def add_fio(fullname: str):
+def creat_docfile():
+    # Hujjat yaratish
+    doc = Document()
+
+    # Sahifa cheklovlarini o'rnatish
+    section = doc.sections[0]
+    section.top_margin = Inches(0.59)   # Yuqoridan 1.5 sm (0.59 dyuym)
+    section.bottom_margin = Inches(0.39)  # Pastdan 1 sm (0.39 dyuym)
+    section.left_margin = Inches(0.79)    # Chapdan 2 sm (0.79 dyuym)
+    section.right_margin = Inches(0.39)   # O'ngdan 1 sm (0.39 dyuym)
+
+    # Matnni markazlashtirib kiritish
+    paragraph = doc.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = paragraph.add_run("MA'LUMOTNOMA")
+    run.bold = True
+    run.font.size = Pt(14)
+    return doc
+
+
+def add_fio(doc, fullname: str):
     paragraph = doc.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = paragraph.add_run(fullname)
     run.bold = True
     run.font.size = Pt(14)
 
-def user_data(work_name: str, left_data: dict, right_data: dict, button_data: dict, image_path: str):
+def user_data(doc, work_name: str, left_data: dict, right_data: dict, button_data: dict, image_path: str):
     user_table = doc.add_table(rows=1, cols=2)
     user_table.alignment = WD_ALIGN_PARAGRAPH.CENTER
     
@@ -94,7 +95,7 @@ def user_data(work_name: str, left_data: dict, right_data: dict, button_data: di
     run.add_picture(image_path, width=Inches(1.18), height=Inches(1.575))  # Rasmni 3x4 sm o'lchamiga moslashtirish
 
 
-def mehnat_faoliyati(text: str):
+def mehnat_faoliyati(doc, text: str):
     # Sarlavhani qo'shish
     paragraph = doc.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -110,7 +111,7 @@ def mehnat_faoliyati(text: str):
         paragraph_format.space_after = Pt(6)  # Qatorlar orasiga bo'sh joy qo'shish
 
 
-def yaqin_qarindosh_malumoti(fullname: str, qarindosh_data: str):
+def yaqin_qarindosh_malumoti(doc, fullname: str, qarindosh_data: str):
     paragraph = doc.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = paragraph.add_run(f"{fullname.title()}ning yaqin qarindoshlari xaqida\nMA'LUMOTNOMA")
@@ -147,14 +148,14 @@ def yaqin_qarindosh_malumoti(fullname: str, qarindosh_data: str):
                     run.font.size = Pt(10)
 
 
-def save_obektvka(file_name):
+def save_obektvka(doc, file_name):
     doc.save(file_name)
 
 def control(data_all: str):
-
+    doc = creat_docfile()
     name = data_all['name']
     #1
-    add_fio(name)
+    add_fio(doc, name)
     #2
     work_name = data_all['work']
     left_data = {
@@ -179,13 +180,13 @@ def control(data_all: str):
     }
     image_path = data_all['image']
 
-    user_data(work_name, left_data=left_data, right_data=right_data, button_data=button_data, image_path=image_path)
+    user_data(doc, work_name, left_data=left_data, right_data=right_data, button_data=button_data, image_path=image_path)
     #3
     mehnatfaoliyat = data_all['mehnatfaoliyat']
-    mehnat_faoliyati(text=mehnatfaoliyat)
+    mehnat_faoliyati(doc, text=mehnatfaoliyat)
     #4 
     yaqinqarindosh = data_all['yaqinqarindosh']
-    yaqin_qarindosh_malumoti(fullname=name, qarindosh_data = yaqinqarindosh)
+    yaqin_qarindosh_malumoti(doc, fullname=name, qarindosh_data = yaqinqarindosh)
     #5
-    save_obektvka(f'{name}.docx')
+    save_obektvka(doc, f'{name}.docx')
 
