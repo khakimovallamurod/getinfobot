@@ -27,7 +27,7 @@ def main():
             handlears.obektvka_data[12]: [MessageHandler(filters.TEXT, handlears.ask_chettili)], 
             handlears.obektvka_data[13]: [MessageHandler(filters.TEXT, handlears.ask_davlat_mukofot)], 
             handlears.obektvka_data[14]: [MessageHandler(filters.TEXT, handlears.ask_yuqori_mansab)], 
-            handlears.obektvka_data[15]: [MessageHandler(filters.PHOTO, handlears.ask_image)], 
+            handlears.obektvka_data[15]: [MessageHandler(filters.PHOTO | filters.TEXT, handlears.ask_image)], 
             handlears.obektvka_data[16]: [MessageHandler(filters.TEXT, handlears.mahnat_faoliyat)], 
             handlears.obektvka_data[17]: [MessageHandler(filters.TEXT, handlears.relyativ_data)], 
         },

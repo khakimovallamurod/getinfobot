@@ -20,6 +20,8 @@ def creat_docfile():
     run = paragraph.add_run("MA'LUMOTNOMA")
     run.bold = True
     run.font.size = Pt(14)
+    run.font.name = 'Times New Roman'  
+
     return doc
 
 
@@ -134,18 +136,18 @@ def yaqin_qarindosh_malumoti(doc, fullname: str, qarindosh_data: str):
     for line in qarindosh_data.splitlines():
         data = line.split(':')
         row_cells = table.add_row().cells
-        row_cells[0].text = data[0]
-        row_cells[1].text = data[1]
-        row_cells[2].text = data[2]
-        row_cells[3].text = data[3]
-        row_cells[4].text = data[4]
+        row_cells[0].text = data[0].strip().capitalize()
+        row_cells[1].text = data[1].strip().capitalize()
+        row_cells[2].text = data[2].strip().capitalize()
+        row_cells[3].text = data[3].strip().capitalize()
+        row_cells[4].text = data[4].strip().capitalize()
 
         # Matnni chiroyli ko'rinishda formatlash
         for cell in row_cells:
             for paragraph in cell.paragraphs:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 for run in paragraph.runs:
-                    run.font.size = Pt(10)
+                    run.font.size = Pt(11)
 
 
 def save_obektvka(doc, file_name):

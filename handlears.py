@@ -65,40 +65,40 @@ async def user_register(update: Update, context: CallbackContext):
     return obektvka_data[0]
 
 async def ask_name(update: Update, context: CallbackContext):
-    USER_DATA["name"] = update.message.text.strip().title()
+    USER_DATA["name"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Hozirgi vaqtda ish lavozimingiz va qachondan: """)
     return obektvka_data[1]
 async def ask_work(update: Update, context: CallbackContext):
-    USER_DATA["work"] = update.message.text.strip().title()
+    USER_DATA["work"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Tu'gilgan yili (dd.mm.yy): """)
     return obektvka_data[2]
 
 async def ask_year(update: Update, context: CallbackContext):
-    USER_DATA["year"] = update.message.text.strip().title()
+    USER_DATA["year"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Tug'ilgan joyi: """)
     return obektvka_data[3]
 
 async def ask_loaction(update: Update, context: CallbackContext):
-    USER_DATA["loaction"] = update.message.text.strip().title()
+    USER_DATA["loaction"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Millati: """)
     return obektvka_data[4]
 
 async def ask_millati(update: Update, context: CallbackContext):
-    USER_DATA["millati"] = update.message.text.strip().title()
+    USER_DATA["millati"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Partiyaviyligi (Yo'q): """)
     return obektvka_data[5]
 
 async def ask_partiyaviyligi(update: Update, context: CallbackContext):
-    USER_DATA["partiyaviy"] = update.message.text.strip().title()
+    USER_DATA["partiyaviy"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Malumoti: """)
     return obektvka_data[6]
 
 async def ask_malumoti(update: Update, context: CallbackContext):
-    USER_DATA["malumoti"] = update.message.text.strip().title()
+    USER_DATA["malumoti"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Tamomlagan(To'liq): """)
     return obektvka_data[7]
 async def ask_tamomlagan(update: Update, context: CallbackContext):
-    USER_DATA["tamomlagan"] = update.message.text.strip().title()
+    USER_DATA["tamomlagan"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Ma'lumoti bo'yicha mutaxassisligi: """)
     return obektvka_data[8]
 async def ask_mutaxasis(update: Update, context: CallbackContext):
@@ -107,7 +107,7 @@ async def ask_mutaxasis(update: Update, context: CallbackContext):
     return obektvka_data[9]
 
 async def ask_unvon(update: Update, context: CallbackContext):
-    USER_DATA["unvon"] = update.message.text.strip().title()
+    USER_DATA["unvon"] = update.message.text.strip().capitalize()
     await update.message.reply_text("""Ilmiy darajasi: """)
     return obektvka_data[10]
 
@@ -137,26 +137,42 @@ async def ask_yuqori_mansab(update: Update, context: CallbackContext):
     return obektvka_data[15]
 
 async def ask_image(update: Update, context: CallbackContext):
-    file_id = update.message.photo[-1].file_id 
-    file = await context.bot.get_file(file_id)
+    if update.message.photo:
+        file_id = update.message.photo[-1].file_id 
+        file = await context.bot.get_file(file_id)
 
-    image_path = 'downloaded_image.jpg'
-    await file.download_to_drive(image_path)
-    USER_DATA["image"] = image_path
-    await update.message.reply_text(f"""MEHNAT FAOLIYAT ingizni kiriting va har birini yangi qator bilan yozing!\n.....\n..... """)
-    return obektvka_data[16]
+        image_path = 'downloaded_image.jpg'
+        await file.download_to_drive(image_path)
+        USER_DATA["image"] = image_path
+        await update.message.reply_text(f"""MEHNAT FAOLIYAT ingizni kiriting va har birini yangi qator bilan yozing!\n.....\n..... """)
+        return obektvka_data[16]
+    else:
+        await update.message.reply_text("""Iltimos rasm 3x4 formatda yuboring: """)
+        return obektvka_data[15]
 
 async def mahnat_faoliyat(update: Update, context: CallbackContext):
-    USER_DATA["mehnatfaoliyat"] = update.message.text.strip()
-    await update.message.reply_text("""Yaqin qarindoshlaringizni Namunadek kiritishingiz shart!\nNamuna: "Qarindoshligi" : "Familyasi, ismi va otasining ismi" : "Tug'ilgan yili va joyi" : "Ish joyi va lavozimi" : "Turar joyi"\n Keyingilarini yangi qatordan yozing ..... """)
+    USER_DATA["mehnatfaoliyat"] = update.message.text.strip().capitalize()
+    await update.message.reply_text("""Yaqin qarindoshlaringizni Namunadek kiritishingiz shart!\nNamuna: Qarindoshligi : Familyasi, ismi va otasining ismi : Tug'ilgan yili va joyi : Ish joyi va lavozimi : Turar joyi\n Keyingilarini yangi qatordan yozing .....! """)
     return obektvka_data[17]
 
 async def relyativ_data(update: Update, context: CallbackContext):
-    USER_DATA["yaqinqarindosh"] = update.message.text.strip()
-    full_name = USER_DATA['name']
-    py_to_doc.control(USER_DATA)
-    await update.message.reply_document(document=open(f'{full_name}.docx', 'rb'), caption="Sizning shaxsiy ma'lumotnomangiz")
-    return ConversationHandler.END
+    text = update.message.text.strip().split('\n')
+    total = 0
+    for item in text:
+        t = item.split(':')
+        if len(t) == 5:
+            total += 1
+    if len(text)==total:
+        USER_DATA["yaqinqarindosh"] = update.message.text.strip()
+
+        full_name = USER_DATA['name']
+        py_to_doc.control(USER_DATA)
+        await update.message.reply_document(document=open(f'{full_name}.docx', 'rb'), caption="Sizning shaxsiy ma'lumotnomangiz")
+        return ConversationHandler.END
+    else:
+        await update.message.reply_text("""❌Xato!\nNamuna: Qarindoshligi : Familyasi, ismi va otasining ismi : Tug'ilgan yili va joyi : Ish joyi va lavozimi : Turar joyi\n Keyingilarini yangi qatordan yozing .....! """)
+        return obektvka_data[17]
+
 
 
 async def cancel(update: Update, context: CallbackContext):
