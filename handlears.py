@@ -65,7 +65,7 @@ async def user_register(update: Update, context: CallbackContext):
     return obektvka_data[0]
 
 async def ask_name(update: Update, context: CallbackContext):
-    USER_DATA["name"] = update.message.text.strip().capitalize()
+    USER_DATA["name"] = update.message.text.strip().title()
     await update.message.reply_text("""Hozirgi vaqtda ish lavozimingiz va qachondan: """)
     return obektvka_data[1]
 async def ask_work(update: Update, context: CallbackContext):
@@ -127,12 +127,12 @@ async def ask_chettili(update: Update, context: CallbackContext):
     return obektvka_data[13]
 
 async def ask_davlat_mukofot(update: Update, context: CallbackContext):
-    USER_DATA["medal"] = update.message.text.strip().capitalize()
+    USER_DATA["medal"] = update.message.text.strip()
     await update.message.reply_text("""Xalq deputatlari, respublika, viloyat, shahar va tuman Kengashi deputatimi yoki boshqa saylangan organlarning azosimi (to'liq ko'rsatilishi lozim): """)
     return obektvka_data[14]
 
 async def ask_yuqori_mansab(update: Update, context: CallbackContext):
-    USER_DATA["yuqorimansab"] = update.message.text.strip().capitalize()
+    USER_DATA["yuqorimansab"] = update.message.text.strip()
     await update.message.reply_text("""Rasm 3x4 formatda bo'lsin: """)
     return obektvka_data[15]
 
